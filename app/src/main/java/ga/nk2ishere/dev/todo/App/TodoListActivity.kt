@@ -1,15 +1,19 @@
-package ga.nk2ishere.dev.todo.Views
+package ga.nk2ishere.dev.todo.App
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
-import android.util.Log
 import android.view.View
-import android.widget.GridLayout
-import ga.nk2ishere.dev.todo.Views.Adapters.TodoListAdapter
-import ga.nk2ishere.dev.todo.Views.Layouts.TodoListLayout
-import ga.nk2ishere.dev.todo.Views.Presenters.TodoListActivityPresenter
-import ga.nk2ishere.dev.todo.Views.Interfaces.TodoListView
+import com.arellomobile.mvp.MvpAppCompatActivity
+import com.arellomobile.mvp.presenter.InjectPresenter
+import com.arellomobile.mvp.presenter.PresenterType
+import com.arellomobile.mvp.presenter.ProvidePresenter
+import com.arellomobile.mvp.presenter.ProvidePresenterTag
+import ga.nk2ishere.dev.todo.App.Adapters.TodoListAdapter
+import ga.nk2ishere.dev.todo.App.Layouts.TodoListLayout
+import ga.nk2ishere.dev.todo.App.Presenters.TodoAddActivityPresenter
+import ga.nk2ishere.dev.todo.App.Presenters.TodoListActivityPresenter
+import ga.nk2ishere.dev.todo.App.Views.TodoListView
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import org.jetbrains.anko.setContentView
 import org.jetbrains.anko.startActivity
@@ -17,10 +21,16 @@ import org.jetbrains.anko.startActivity
 /**
  * Created by nk2 on 07/10/2017.
  */
-class TodoListActivity: AppCompatActivity(), TodoListView {
+class TodoListActivity: MvpAppCompatActivity(), TodoListView {
 
-    private val presenter = TodoListActivityPresenter(this)
     val layout = TodoListLayout()
+
+    @InjectPresenter(type = PresenterType.GLOBAL)
+    lateinit var presenter: TodoListActivityPresenter
+    @ProvidePresenterTag(presenterClass = TodoListActivityPresenter::class, type = PresenterType.GLOBAL)
+    fun providePresenterTag(): String = "LIST"
+    @ProvidePresenter(type = PresenterType.GLOBAL)
+    fun providePresenter() = TodoListActivityPresenter()
 
     private var completedAdapter: TodoListAdapter? = null
     private var uncompletedAdapter: TodoListAdapter? = null
@@ -29,7 +39,7 @@ class TodoListActivity: AppCompatActivity(), TodoListView {
         super.onCreate(savedInstanceState)
         layout.setContentView(this)
         presenter.init()
-        layout.addTodo.onClick { presenter.onTodoAdd() }
+        layout.addTodo.onClick { presenter.addTodo() }
     }
 
     override fun onResume() {
@@ -37,7 +47,7 @@ class TodoListActivity: AppCompatActivity(), TodoListView {
         super.onResume()
     }
 
-    override fun changeTodoCompleteState(id: String) = presenter.changeCompleteState(id)
+    override fun changeTodoCompleteState(id: String) = presenter.changeTodoCompleteState(id)
 
     override fun updateTodoLists() {
         completedAdapter?.let { presenter.updateAdapter(true, it) }

@@ -1,11 +1,12 @@
-package ga.nk2ishere.dev.todo.Views.Interfaces
+package ga.nk2ishere.dev.todo.App.Views
 
 import android.view.View
+import com.arellomobile.mvp.MvpView
 
 /**
  * Created by nk2 on 08/10/2017.
  */
-interface TodoListView {
+interface TodoListView: MvpView {
     fun updateTodoLists()
     fun removeTodo(id: String)
     fun initTodoLists()

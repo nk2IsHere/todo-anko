@@ -1,19 +1,18 @@
-package ga.nk2ishere.dev.todo.Views.Presenters
+package ga.nk2ishere.dev.todo.App.Presenters
 
+import com.arellomobile.mvp.InjectViewState
+import com.arellomobile.mvp.MvpPresenter
+import ga.nk2ishere.dev.todo.App.Views.TodoAddView
 import ga.nk2ishere.dev.todo.Models.TodoEntry
-import ga.nk2ishere.dev.todo.Views.Interfaces.TodoAddView
 import io.realm.Realm
-import org.jetbrains.anko.AnkoAsyncContext
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.custom.async
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.info
-import java.util.concurrent.ExecutorService
 
 /**
  * Created by nk2 on 08/10/2017.
  */
-class TodoAddActivityPresenter (val todoAddView: TodoAddView) {
+@InjectViewState
+class TodoAddActivityPresenter: MvpPresenter<TodoAddView>() {
     fun init() = AnkoLogger<TodoAddActivityPresenter>().info { "Start activity" }
 
     fun addTodo(name: String, desc: String) {
@@ -23,9 +22,9 @@ class TodoAddActivityPresenter (val todoAddView: TodoAddView) {
                    realm.beginTransaction()
                    realm.copyToRealm(TodoEntry(name, desc))
                    realm.commitTransaction()
-                   todoAddView.exit()
-               } else todoAddView.showErrorDesc("Пустое!")
-        } else todoAddView.showErrorName("Пустое!")
+                   viewState.exit()
+               } else viewState.showErrorDesc("Пустое!")
+        } else viewState.showErrorName("Пустое!")
         realm.close()
     }
 }

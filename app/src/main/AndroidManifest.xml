@@ -10,12 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:fullBackupContent="@xml/backup_descriptor">
-        <activity android:name=".Views.TodoListActivity">
+        <activity android:name=".App.TodoListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Views.TodoAddActivity" />
+        <activity android:name=".App.TodoAddActivity" />
     </application>
 </manifest>

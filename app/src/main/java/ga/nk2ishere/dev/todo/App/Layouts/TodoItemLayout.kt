@@ -1,13 +1,10 @@
-package ga.nk2ishere.dev.todo.Views.Layouts
+package ga.nk2ishere.dev.todo.App.Layouts
 
 import android.content.Context
 import android.graphics.Typeface
-import android.support.design.R.attr.borderlessButtonStyle
-import android.text.Layout
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.LinearLayout
@@ -15,7 +12,6 @@ import android.widget.TextView
 import ga.nk2ishere.dev.todo.R
 import ga.nk2ishere.dev.todo.Utils.dip
 import org.jetbrains.anko.*
-import org.jetbrains.anko.custom.style
 import kotlin.properties.Delegates
 
 /**

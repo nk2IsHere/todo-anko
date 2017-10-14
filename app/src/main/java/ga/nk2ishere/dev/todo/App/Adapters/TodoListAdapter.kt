@@ -1,11 +1,11 @@
-package ga.nk2ishere.dev.todo.Views.Adapters
+package ga.nk2ishere.dev.todo.App.Adapters
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import ga.nk2ishere.dev.todo.Models.TodoEntry
-import ga.nk2ishere.dev.todo.Views.Layouts.TodoItemLayout
+import ga.nk2ishere.dev.todo.App.Layouts.TodoItemLayout
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.sdk25.coroutines.onClick
 

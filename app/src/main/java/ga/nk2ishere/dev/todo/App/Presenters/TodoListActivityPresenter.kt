@@ -1,10 +1,12 @@
-package ga.nk2ishere.dev.todo.Views.Presenters
+package ga.nk2ishere.dev.todo.App.Presenters
 
+import com.arellomobile.mvp.InjectViewState
+import com.arellomobile.mvp.MvpPresenter
 import ga.nk2ishere.dev.todo.Application
 import ga.nk2ishere.dev.todo.Models.TodoEntry
-import ga.nk2ishere.dev.todo.Views.Adapters.TodoListAdapter
-import ga.nk2ishere.dev.todo.Views.Interfaces.TodoListView
-import ga.nk2ishere.dev.todo.Views.Layouts.TodoFullItemLayout
+import ga.nk2ishere.dev.todo.App.Adapters.TodoListAdapter
+import ga.nk2ishere.dev.todo.App.Views.TodoListView
+import ga.nk2ishere.dev.todo.App.Layouts.TodoFullItemLayout
 import io.realm.Realm
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.AnkoLogger
@@ -13,14 +15,13 @@ import org.jetbrains.anko.info
 /**
  * Created by nk2 on 07/10/2017.
  */
-class TodoListActivityPresenter(val todoListView: TodoListView) {
+@InjectViewState
+class TodoListActivityPresenter : MvpPresenter<TodoListView>() {
     fun init() {
         AnkoLogger<TodoListActivityPresenter>().info { "Start activity" }
-        todoListView.initTodoLists()
+        viewState.initTodoLists()
     }
 
-    fun onTodoAdd() = todoListView.addTodo()
-    fun onTodoClick(id: String) = todoListView.clickTodo(id)
     fun updateAdapter(completed: Boolean, adapter: TodoListAdapter) {
         val realm = Realm.getDefaultInstance()
         adapter.todoList.clear()
@@ -33,7 +34,7 @@ class TodoListActivityPresenter(val todoListView: TodoListView) {
         }
         adapter.notifyDataSetChanged()
     }
-    fun changeCompleteState(id: String) {
+    fun changeTodoCompleteState(id: String) {
         val realm = Realm.getDefaultInstance()
         realm.where(TodoEntry::class.java)
                 .equalTo("id", id)
@@ -43,8 +44,11 @@ class TodoListActivityPresenter(val todoListView: TodoListView) {
             realm.commitTransaction()
         }
         realm.close()
-        todoListView.updateTodoLists()
+        viewState.updateTodoLists()
     }
+
+    fun addTodo() = viewState.addTodo()
+
     fun removeTodo(id: String) {
         val realm = Realm.getDefaultInstance()
         realm.executeTransaction {
@@ -54,7 +58,7 @@ class TodoListActivityPresenter(val todoListView: TodoListView) {
                     .deleteAllFromRealm()
         }
         realm.close()
-        todoListView.updateTodoLists()
+        viewState.updateTodoLists()
     }
     fun clickTodo(id: String) {
         val realm = Realm.getDefaultInstance()
@@ -66,9 +70,9 @@ class TodoListActivityPresenter(val todoListView: TodoListView) {
                 layout.title.text = it.title
                 layout.description.text = it.description
             }
-            todoListView.showBottomSheet(view)
+            viewState.showBottomSheet(view)
         }
         realm.close()
     }
-    fun onResume() = todoListView.updateTodoLists()
+    fun onResume() = viewState.updateTodoLists()
 }

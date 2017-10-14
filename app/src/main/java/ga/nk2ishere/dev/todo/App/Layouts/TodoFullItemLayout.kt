@@ -1,4 +1,4 @@
-package ga.nk2ishere.dev.todo.Views.Layouts
+package ga.nk2ishere.dev.todo.App.Layouts
 
 import android.content.Context
 import android.graphics.Typeface

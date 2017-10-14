@@ -57,12 +57,15 @@ dependencies {
     compile "org.jetbrains.anko:anko-support-v4-commons:$anko_version"
     compile "org.jetbrains.anko:anko-support-v4:$anko_version"
 
+    compile 'com.arello-mobile:moxy:1.5.3'
+    compile 'com.arello-mobile:moxy-app-compat:1.5.3'
+    kapt 'com.arello-mobile:moxy-compiler:1.5.3'
+
 //    compile "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
 //    compile "io.reactivex.rxjava2:rxjava:$rxjava_version"
 //    compile "com.jakewharton.rxbinding2:rxbinding:$rxbinding_version"
 //    compile "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rxbinding_version"
 //    compile "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:$rxbinding_version"
-//    compile "ru.arturvasilov:rx-loader:$rxloader_version"
 
     compile "com.flipboard:bottomsheet-core:$bottomsheet_version"
     compile "com.flipboard:bottomsheet-commons:$bottomsheet_version"
@@ -73,4 +76,8 @@ kotlin {
     experimental {
         coroutines "enable"
     }
+}
+
+kapt {
+    generateStubs = true
 }
